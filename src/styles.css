@@ -27,7 +27,8 @@ body {
   }
   
   button[type="button"] {
-    background: black;
+    background: rgb(6, 96, 156);
+	color: white;
     border: 1px solid white;
   }
   

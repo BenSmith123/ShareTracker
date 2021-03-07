@@ -1,36 +1,37 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from 'react';
 
+import { Button } from '@material-ui/core';
 import { DataGrid } from '@material-ui/data-grid';
 
-import { instruments as companies } from './z-instruments.json';
+import { instruments as companies } from './sharesies.private/instruments.json';
 
 
 import "./styles.css";
 
 
 const columns = [
-  { field: 'id', headerName: '#', width: 20 },
+  { field: 'id', headerName: '#', width: 60 },
   { 
     field: 'logo', 
     headerName: 'Logo',
-    width: 200,
-    height: 200,
+    width: 120,
+    height: 120,
     renderCell: (params) => (
       <img 
-        style={{ width: '50px', height: 'auto' }}
+        style={{ width: '100px', height: 'auto' }}
         src={params.value}
+		alt="company logo"
       >
       </img>
     ),
   },
-  { field: 'name', headerName: 'Name', width: 130 },
-  { field: 'symbol', headerName: 'Symbol', width: 130 },
+  { field: 'name', headerName: 'Name', width: 300 },
+  { field: 'symbol', headerName: 'Symbol', width: 120 },
   {
     field: 'marketPrice',
-    headerName: 'marketPrice',
+    headerName: 'Market price',
     type: 'number',
-    width: 90,
+    width: 180,
   },
   // {
   //   field: 'fullName',
@@ -44,11 +45,7 @@ const columns = [
 ];
 
 
-
-
-export default function App() {
-
-  const rows = companies.map((company, i) => {
+const rows = companies.map((company, i) => {
     return {
       id: i + 1,
       logo: 'https://data.sharesies.nz' + company.logos.thumb,
@@ -57,17 +54,46 @@ export default function App() {
       marketPrice: company.marketPrice,
       // exchange: company.exchange
     }
-  });
+});
 
-  console.log(companies)
-  console.log(rows)
 
+export default function App() {
+
+	const [showShares, setShowShares] = useState(true);
 
   return (
 
-    <div style={{ height: '3400px', width: '100%' }}>
-      <DataGrid rows={rows} columns={columns} pageSize={60} />
-    </div>
+	<>
+
+		<div className="menuContainer" style={{ width: 200, height: 200 }}>
+			<Button
+				onClick={() => setShowShares(!showShares)}
+			>
+				Hello {showShares}
+			</Button>
+		</div>
+
+		{
+			showShares ?
+			<DataGrid 
+				rows={rows}
+				rowHeight={100}
+				autoHeight
+				columns={columns}
+				pageSize={60}
+				// autoPageSize
+			/>
+
+			:
+			
+			<div>
+				{/* TODO */}
+			</div>
+		}
+	</>
+
+
+	
 
     // <>
     //     <Grid 
