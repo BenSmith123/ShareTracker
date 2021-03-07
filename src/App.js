@@ -1,95 +1,66 @@
-import React, { useState } from 'react';
-
-import { Button } from '@material-ui/core';
-import { DataGrid } from '@material-ui/data-grid';
-
-import { instruments as companies } from './sharesies.private/instruments.json';
-
 
 import "./styles.css";
 
-
-const columns = [
-  { field: 'id', headerName: '#', width: 60 },
-  { 
-    field: 'logo', 
-    headerName: 'Logo',
-    width: 120,
-    height: 120,
-    renderCell: (params) => (
-      <img 
-        style={{ width: '100px', height: 'auto' }}
-        src={params.value}
-		alt="company logo"
-      >
-      </img>
-    ),
-  },
-  { field: 'name', headerName: 'Name', width: 300 },
-  { field: 'symbol', headerName: 'Symbol', width: 120 },
-  {
-    field: 'marketPrice',
-    headerName: 'Market price',
-    type: 'number',
-    width: 180,
-  },
-  // {
-  //   field: 'fullName',
-  //   headerName: 'Full name',
-  //   description: 'This column has a value getter and is not sortable.',
-  //   sortable: false,
-  //   width: 160,
-  //   valueGetter: (params) =>
-  //     `${params.getValue('firstName') || ''} ${params.getValue('lastName') || ''}`,
-  // },
-];
+import React, { useState } from 'react';
+import { Button } from '@material-ui/core';
 
 
-const rows = companies.map((company, i) => {
-    return {
-      id: i + 1,
-      logo: 'https://data.sharesies.nz' + company.logos.thumb,
-      name: company.name,
-      symbol: company.symbol,
-      marketPrice: company.marketPrice,
-      // exchange: company.exchange
-    }
-});
+import ShareOverview from './shares/Overview';
+
+
+const MENU_ITEMS = {
+  SHARES: 'Shares',
+  SHARE_SUMMARY: 'Share summary',
+  CRYPTO: 'Crypto'
+};
+
+
+function renderMenuItem(menuItem) {
+  switch (menuItem) {
+
+    case MENU_ITEMS.SHARES:
+      return <ShareOverview />
+
+    case MENU_ITEMS.SHARE_SUMMARY:
+      return <div />;
+
+    case MENU_ITEMS.CRYPTO:
+      return <div />;
+
+    default:
+      return null;
+  }
+}
 
 
 export default function App() {
 
-	const [showShares, setShowShares] = useState(true);
+	const [display, setDisplay] = useState(MENU_ITEMS.SHARES);
+
 
   return (
 
 	<>
 
+    <h1>{display}</h1>
+
 		<div className="menuContainer" style={{ width: 200, height: 200 }}>
-			<Button
-				onClick={() => setShowShares(!showShares)}
-			>
-				Hello {showShares}
+			<Button onClick={() => setDisplay(MENU_ITEMS.SHARES)}>
+				Share overview
 			</Button>
+
+      <Button onClick={() => setDisplay(MENU_ITEMS.SHARE_SUMMARY)} >
+				Share summary
+			</Button>
+
+      <Button onClick={() => setDisplay(MENU_ITEMS.CRYPTO)} >
+				Crypto currency
+			</Button>
+
 		</div>
 
-		{
-			showShares ?
-			<DataGrid 
-				rows={rows}
-				rowHeight={100}
-				autoHeight
-				columns={columns}
-				pageSize={60}
-				// autoPageSize
-			/>
+    {renderMenuItem(display)}
 
-			:
-			
-			<div>
-				{/* TODO */}
-			</div>
-		}
 	</>
 
 
