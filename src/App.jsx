@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
 
 import ShareOverview from './shares/Overview';
+import Summary from './shares/Summary';
+
 
 const MENU_ITEMS = {
   SHARES: 'Shares',
@@ -11,13 +13,14 @@ const MENU_ITEMS = {
   CRYPTO: 'Crypto',
 };
 
+
 function renderMenuItem(menuItem) {
   switch (menuItem) {
     case MENU_ITEMS.SHARES:
       return <ShareOverview />;
 
     case MENU_ITEMS.SHARE_SUMMARY:
-      return <div />;
+      return <Summary />;
 
     case MENU_ITEMS.CRYPTO:
       return <div />;
@@ -26,6 +29,7 @@ function renderMenuItem(menuItem) {
       return null;
   }
 }
+
 
 export default function App() {
   const [display, setDisplay] = useState(MENU_ITEMS.SHARES);
