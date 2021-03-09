@@ -18,6 +18,7 @@
         "react"
     ],
     "rules": {
+		"padded-blocks": "off",
         "no-multiple-empty-lines": [
             "error",
             {
