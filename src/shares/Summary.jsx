@@ -1,6 +1,7 @@
 
 import React from 'react';
 import 'chartjs-plugin-datalabels';
+import '../styles/summary.scss';
 
 import { Doughnut } from 'react-chartjs-2';
 
@@ -50,21 +51,38 @@ console.log(totalContribution);
 
 
 const chartOptions = {
+  legend: {
+    display: false,
+  },
+  layout: {
+    padding: {
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+    },
+    margin: 50,
+  },
+  // events: [], // disable hover
   plugins: {
     datalabels: {
+      align: 'end',
       // TODO - hide labels at the top and create new components for a list of companies
       display: true,
-      color: 'white',
+      color: 'grey',
       anchor: 'end',
       font: {
         weight: 'none',
         size: 12,
       },
+
       formatter: (value, { dataIndex }) => {
         // calculate percentage and add a title
         // TODO - add money value? - should be an option toggle (default off) for privacy
         const percentage = ((parseFloat(value) / totalContribution) * 100).toFixed(1);
-        return `${percentage}%\n${investmentArrays.names[dataIndex]}`;
+        return percentage > 1.7
+          ? `${percentage}%\n${investmentArrays.names[dataIndex]}`
+          : '';
       },
     },
   },
@@ -76,33 +94,49 @@ const chartOptions = {
 
 function renderPieChart(dataValues, dataLabels) {
   return (
-    <Doughnut
-      options={chartOptions}
-      data={{
-        labels: dataLabels,
-        datasets: [{
-          label: '# of Votes',
-          data: dataValues,
-          backgroundColor: [ // TODO - globally define or automate chartjs colours
-            '#DE80A7',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)',
-          ],
-          borderWidth: 1,
-        }],
-      }}
-    />
+    <>
+      <div className="GraphContainer">
+        <Doughnut
+          options={chartOptions}
+          data={{
+            labels: dataLabels,
+            datasets: [{
+              label: '# of Votes',
+              data: dataValues,
+              backgroundColor: [ // TODO - globally define or automate chartjs colours
+                '#DE80A7',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+              ],
+              borderWidth: 1,
+            }],
+          }}
+        />
+      </div>
+
+      <div className="GraphLegendContainer">
+        <ul style={{
+          'padding-inline-start': 0,
+          'margin-block': 0,
+        }}
+        >
+          {dataLabels.map((label) => (
+            <div>{label}</div>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 }
 
@@ -113,7 +147,11 @@ export default function Summary() {
 
   return (
     <>
-      {renderPieChart(investmentArrays.contributions, investmentArrays.names)}
+      <div className="GraphRowContainer">
+        {renderPieChart(investmentArrays.contributions, investmentArrays.names)}
+
+
+      </div>
     </>
   );
 }

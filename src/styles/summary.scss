@@ -1,0 +1,27 @@
+
+body {
+    color: blue;
+    max-width: 1200px;
+}
+
+h1 {
+    color: blue;
+}
+
+// container for graph and legend
+.GraphRowContainer {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-gap: 10px;
+}
+
+.GraphContainer {
+
+}
+
+.GraphLegendContainer {
+    width: auto;
+    
+}
+
+.ul { padding-inline-start: 0; }

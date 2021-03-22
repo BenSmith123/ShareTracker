@@ -1,4 +1,4 @@
-import './styles.css';
+import './styles/styles.scss';
 
 import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
